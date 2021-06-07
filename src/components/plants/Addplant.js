@@ -1,10 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
+import axios from "axios";
+
+const items = [
+    {
+        flavorCode: "79d0572f-3a77-4a32-ae12-065bc9226bbf",
+        description: "Unknown",
+        displayOrder: 1,
+        isActive: true,
+        lookupEnumName: "Unknown",
+        name: "",
+    },
+    {
+        flavorCode: "8ef40a16-0107-445f-95f3-9a42571e6dce",
+        description: "Sweet",
+        displayOrder: 2,
+        isActive: true,
+        lookupEnumName: "Sweet",
+        name: "Sweet",
+    },
+    {
+        flavorCode: "3c168950-4aa1-458b-9b8f-b8a0c86ad5f8",
+        description: "Sour",
+        displayOrder: 3,
+        isActive: true,
+        lookupEnumName: "Sour",
+        name: "Sour",
+    },
+    {
+        flavorCode: "33333333-3333-3333-3333-333333333333",
+        description: "Other",
+        displayOrder: 4,
+        isActive: true,
+        lookupEnumName: "Other",
+        name: "Other",
+    },
+];
 
 const Addplant = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -17,6 +53,19 @@ const Addplant = () => {
         handleSubmit,
         watch,
     } = useForm();
+
+    useEffect(() => {
+        axios
+            // .get("/user?ID=12345")
+            .then(function (items) {
+                // handle success
+                console.log(items);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
+    }, []);
 
     const onSubmit = (data) => {
         addToast("Plant added Successfully", { appearance: "success", autoDismiss: true });
@@ -40,13 +89,21 @@ const Addplant = () => {
                                     <Form.Group className="col-md-6" controlId="flavorCode">
                                         <Form.Label>flavor Code</Form.Label>
                                         <Form.Control
+                                            as="select"
                                             type="text"
                                             name="flavorCode"
                                             placeholder="Flavor Code"
                                             {...register("flavorCode", {
                                                 required: true,
                                             })}
-                                        />
+                                        >
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </Form.Control>
+
                                         <p className="text-danger">{errors.flavorCode && "Flavor Code is required"}</p>
                                     </Form.Group>
                                     <Form.Group className="col-md-6" controlId="firstname">

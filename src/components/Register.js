@@ -1,9 +1,11 @@
-import React, { useContext, useRef } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useRef } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../App";
+import { API_URL } from "./../config";
 
 const Register = ({ mt }) => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -19,13 +21,20 @@ const Register = ({ mt }) => {
     const password = useRef({});
     password.current = watch("password", "");
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
-        const signInuser = { isSignedIn: true, ...data };
-        setLoggedInUser(signInuser);
-        console.log(signInuser);
-        addToast("Registered  Successfully", { appearance: "success", autoDismiss: true });
-        history.push("/dashboard");
+
+        try {
+            const response = await axios.post(`${API_URL}/register`, data);
+            // const signInuser = { isSignedIn: true, ...data };
+            // setLoggedInUser(signInuser);
+            // console.log(signInuser);
+            // addToast("Registered  Successfully", { appearance: "success", autoDismiss: true });
+            // history.push("/dashboard");
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     };
     return (
         <Container>
@@ -33,18 +42,18 @@ const Register = ({ mt }) => {
                 <Col md={8} className={mt ? `center ${mt}` : `center mt-30`}>
                     <div className="form-area">
                         <div className="introtext mt-4 mb-4">
-                            <h3>Register</h3>
+                            <h3>Register..</h3>
                             <p>Please tell us about yourself.</p>
                         </div>
                         <form className="fu-form" onSubmit={handleSubmit(onSubmit)}>
                             <Form.Group controlId="firstname">
                                 <Form.Label>First Name *</Form.Label>
-                                <Form.Control type="text" name="fname" placeholder="First Name" {...register("fname", { required: true })} />
+                                <Form.Control type="text" name="fname" placeholder="First Name" {...register("firstname", { required: true })} />
                                 <p className="text-danger">{errors.fname && "First Name is required"}</p>
                             </Form.Group>
                             <Form.Group controlId="firstname">
                                 <Form.Label>Last Name *</Form.Label>
-                                <Form.Control type="text" name="lname" placeholder="Last Name" {...register("lname", { required: true })} />
+                                <Form.Control type="text" name="lname" placeholder="Last Name" {...register("lastName", { required: true })} />
                                 <p className="text-danger">{errors.lname && "Last Name is required"}</p>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
@@ -71,9 +80,9 @@ const Register = ({ mt }) => {
                                 <Form.Label>Password *</Form.Label>
                                 <Form.Control
                                     type="password"
-                                    name="password_repeat"
+                                    name="confirmPassword"
                                     placeholder="Confirm Password"
-                                    {...register("password_repeat", {
+                                    {...register("confirmPassword", {
                                         required: true,
                                         validate: (value) => value === password.current || "The passwords do not match",
                                     })}

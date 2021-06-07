@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../App";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { API_URL } from "./../config";
 
 const Login = ({ mt }) => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -18,14 +20,21 @@ const Login = ({ mt }) => {
         watch,
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
-        const signInuser = { isSignedIn: true, ...data };
-        setLoggedInUser(signInuser);
-        console.log(signInuser);
+    const onSubmit = async (data) => {
+        // console.log(data);
 
-        addToast("Logged in Successfully", { appearance: "success", autoDismiss: true });
-        history.push("/dashboard");
+        try {
+            const response = await axios.post(`${API_URL}/login`, data);
+            // const signInuser = { isSignedIn: true, ...data };
+            console.log(response);
+            // setLoggedInUser(signInuser);
+            // // console.log(signInuser);
+
+            // addToast("Logged in Successfully", { appearance: "success", autoDismiss: true });
+            // history.push("/dashboard");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -34,7 +43,7 @@ const Login = ({ mt }) => {
                 <Col md={8} className={mt ? `center ${mt}` : `center mt-30`}>
                     <div className="form-area">
                         <div className="introtext">
-                            <h3>Login</h3>
+                            <h3>Login..</h3>
                             <p>Please enter your email and password</p>
                         </div>
                         <form className="fu-form" onSubmit={handleSubmit(onSubmit)}>
