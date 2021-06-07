@@ -21,21 +21,23 @@ const Login = ({ mt }) => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        // console.log(data);
-
         try {
             const response = await axios.post(`${API_URL}/login`, data);
-            // const signInuser = { isSignedIn: true, ...data };
-            console.log(response);
-            // setLoggedInUser(signInuser);
-            // // console.log(signInuser);
-
-            // addToast("Logged in Successfully", { appearance: "success", autoDismiss: true });
-            // history.push("/dashboard");
+            if (response.data.success) {
+                console.log(response);
+                const signInuser = { isSignedIn: true, ...response.data };
+                setLoggedInUser(signInuser);
+                localStorage.setItem("loggedInUser", JSON.stringify(signInuser));
+                // console.log(signInuser);
+                addToast("Logged in Successfully", { appearance: "success", autoDismiss: true });
+                history.push("/dashboard");
+            }
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     };
+
+    console.log(loggedInUser);
 
     return (
         <Container>

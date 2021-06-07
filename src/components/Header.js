@@ -47,7 +47,7 @@ const Header = () => {
                             </Nav.Link>
                             {loggedInUser.isSignedIn ? (
                                 <Nav.Link as={Link} to="/" onClick={handlelogOut}>
-                                    {loggedInUser.isSignedIn ? loggedInUser.email + " " + "Logout" : ""}
+                                    {loggedInUser.isSignedIn && loggedInUser.email ? loggedInUser.email + " " + "Logout" : ""}
                                 </Nav.Link>
                             ) : (
                                 <Nav.Link as={Link} to="/login">

@@ -6,41 +6,7 @@ import { UserContext } from "../../App";
 import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
 import axios from "axios";
-
-const items = [
-    {
-        flavorCode: "79d0572f-3a77-4a32-ae12-065bc9226bbf",
-        description: "Unknown",
-        displayOrder: 1,
-        isActive: true,
-        lookupEnumName: "Unknown",
-        name: "",
-    },
-    {
-        flavorCode: "8ef40a16-0107-445f-95f3-9a42571e6dce",
-        description: "Sweet",
-        displayOrder: 2,
-        isActive: true,
-        lookupEnumName: "Sweet",
-        name: "Sweet",
-    },
-    {
-        flavorCode: "3c168950-4aa1-458b-9b8f-b8a0c86ad5f8",
-        description: "Sour",
-        displayOrder: 3,
-        isActive: true,
-        lookupEnumName: "Sour",
-        name: "Sour",
-    },
-    {
-        flavorCode: "33333333-3333-3333-3333-333333333333",
-        description: "Other",
-        displayOrder: 4,
-        isActive: true,
-        lookupEnumName: "Other",
-        name: "Other",
-    },
-];
+import { API_URL } from "./../../config";
 
 const Addplant = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -54,15 +20,21 @@ const Addplant = () => {
         watch,
     } = useForm();
 
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Farm-Api-Key": loggedInUser.farmApiKey,
+        },
+    };
+
     useEffect(() => {
         axios
-            // .get("/user?ID=12345")
+            .get(`${API_URL}/plants`, config)
             .then(function (items) {
-                // handle success
                 console.log(items);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             });
     }, []);

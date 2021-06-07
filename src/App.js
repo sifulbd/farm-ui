@@ -18,11 +18,18 @@ import { ToastProvider, useToasts } from "react-toast-notifications";
 
 export const UserContext = createContext();
 
-function App() {
-    const [loggedInUser, setLoggedInUser] = useState({
-        isSignedIn: false,
-    });
+const ISSERVER = typeof window === "undefined";
+const userInfo = !ISSERVER && localStorage.getItem("loggedInUser") ? JSON.parse(localStorage.getItem("loggedInUser")) : "";
 
+// const getUserInfo = async () => {
+//     const userInfoFromStorage = !ISSERVER && localStorage.getItem("loggedInUser") ? await JSON.parse(localStorage.getItem("loggedInUser")) : null;
+//     return userInfoFromStorage;
+// };
+
+function App() {
+    const [loggedInUser, setLoggedInUser] = useState(userInfo);
+
+    console.log(loggedInUser);
     return (
         <ToastProvider>
             <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
