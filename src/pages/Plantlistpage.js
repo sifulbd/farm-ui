@@ -1,10 +1,44 @@
 import { FaBeer } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "./../App";
+import DatePicker from "react-datepicker";
+import { useToasts } from "react-toast-notifications";
+import { useLocation } from "react-router-dom";
+import { API_URL } from "./../config";
 import { Container, Jumbotron, Breadcrumb, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Plantlistpage = () => {
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [startDate, setStartDate] = useState(new Date());
+    const { addToast } = useToasts();
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Farm-Api-Key": loggedInUser.farmApiKey,
+        },
+    };
+
+    try {
+        useEffect(() => {
+            axios
+                .get(`${API_URL}/plants`, config)
+                .then(function (items) {
+                    console.log(items);
+                    addToast("Plants loaded Successfully", { appearance: "success", autoDismiss: true });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }, []);
+    } catch (error) {
+        addToast("Somthing Went Wrong", { appearance: "error", autoDismiss: true });
+    }
     return (
         <>
             <Container style={{ marginTop: "60px" }}>

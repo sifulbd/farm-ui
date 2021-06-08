@@ -12,6 +12,7 @@ const Addplant = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     const [startDate, setStartDate] = useState(new Date());
     const { addToast } = useToasts();
+    const [flavours, setFalvours] = useState([]);
     const {
         register,
         control,
@@ -28,21 +29,28 @@ const Addplant = () => {
         },
     };
 
-    useEffect(() => {
-        axios
-            .get(`${API_URL}/plants`, config)
-            .then(function (items) {
-                console.log(items);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }, []);
+    try {
+        useEffect(() => {
+            axios
+                .get(`${API_URL}/flavors`, config)
+                .then(function (res) {
+                    setFalvours(res.data);
+                    addToast("Flavor loaded Successfully", { appearance: "success", autoDismiss: true });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }, []);
+    } catch (error) {
+        addToast("Somthing Went Wrong", { appearance: "error", autoDismiss: true });
+    }
 
     const onSubmit = (data) => {
         addToast("Plant added Successfully", { appearance: "success", autoDismiss: true });
         console.log(data);
     };
+
+    console.log(flavours.items);
 
     return (
         <>
@@ -69,11 +77,12 @@ const Addplant = () => {
                                                 required: true,
                                             })}
                                         >
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            {flavours.items &&
+                                                flavours.items.map((flavor, idx) => (
+                                                    <option key={idx} value={flavor.flavorCode}>
+                                                        {flavor.description}
+                                                    </option>
+                                                ))}
                                         </Form.Control>
 
                                         <p className="text-danger">{errors.flavorCode && "Flavor Code is required"}</p>
@@ -98,6 +107,7 @@ const Addplant = () => {
                                             placeholder="someIntVal"
                                             {...register("someIntVal", {
                                                 required: true,
+                                                valueAsNumber: true,
                                             })}
                                         />
                                         <p className="text-danger">{errors.someIntVal && "someIntVal is required"}</p>

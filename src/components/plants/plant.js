@@ -6,14 +6,35 @@ import { UserContext } from "../../App";
 import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
 import { useLocation } from "react-router-dom";
+import { API_URL } from "./../../config";
 
 const Editplant = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     const [startDate, setStartDate] = useState(new Date());
     const { addToast } = useToasts();
 
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Farm-Api-Key": loggedInUser.farmApiKey,
+        },
+    };
+
+    console.log(loggedInUser.farmApiKey);
+    console.log("This is plants", loggedInUser.farmApiKey);
+
     useEffect(() => {
-        addToast("Plant loaded Successfully", { appearance: "success", autoDismiss: true });
+        const response = await axios.get(`${API_URL}/plants`, config);
+        console.log(response);
+
+        // .then(function (items) {
+        //     console.log(items);
+        //     addToast("Plants loaded Successfully", { appearance: "success", autoDismiss: true });
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
     }, []);
 
     return (
