@@ -26,7 +26,7 @@ const Editplant = () => {
 
     useEffect(() => {
         const response = await axios.get(`${API_URL}/plants`, config);
-        console.log(response);
+        console.log(response.data);
 
         // .then(function (items) {
         //     console.log(items);

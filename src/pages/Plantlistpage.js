@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
 import { useLocation } from "react-router-dom";
 import { API_URL } from "./../config";
-import { Container, Jumbotron, Breadcrumb, Button } from "react-bootstrap";
+import { Container, Jumbotron, Breadcrumb, Button, Col, InputGroup, FormControl, Row, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -29,7 +29,8 @@ const Plantlistpage = () => {
             axios
                 .get(`${API_URL}/plants`, config)
                 .then(function (items) {
-                    console.log(items);
+                    const platns = items.data;
+                    console.log(platns);
                     addToast("Plants loaded Successfully", { appearance: "success", autoDismiss: true });
                 })
                 .catch(function (error) {
@@ -67,6 +68,47 @@ const Plantlistpage = () => {
                         </Button>
                     </Link>
                 </Jumbotron>
+            </Container>
+            <Container>
+                <Table striped hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Website</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="user-tbale-body">
+                        {/*
+                         {currentUser.length
+                            ? searchUser(currentUser).map((user, idx3) => (
+                                  <tr key={idx3}>
+                                      <td>{user.id}</td>
+                                      <td>{user.name}</td>
+                                      <td>{user.email}</td>
+                                      <td>{user.website}</td>
+                                      <td>
+                                          <Link to={`/users/${user.id}`}>View Details</Link>
+                                      </td>
+                                  </tr>
+                              ))
+                            : "No user found"} 
+                            
+                            */}
+
+                        <tr>
+                            <td>1</td>
+                            <td>Alex</td>
+                            <td>alex@gmail.com</td>
+                            <td>www.com</td>
+                            <td>
+                                <Link to="">View Details</Link>
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
             </Container>
         </>
     );
