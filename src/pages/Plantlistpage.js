@@ -6,7 +6,18 @@ import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
 import { useLocation } from "react-router-dom";
 import { API_URL } from "./../config";
-import { Container, Jumbotron, Breadcrumb, Button, Col, InputGroup, FormControl, Row, Table, Form } from "react-bootstrap";
+import {
+    Container,
+    Jumbotron,
+    Breadcrumb,
+    Button,
+    Col,
+    InputGroup,
+    FormControl,
+    Row,
+    Table,
+    Form,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -31,20 +42,29 @@ const Plantlistpage = () => {
                 .then(function (items) {
                     const platns = items.data;
                     console.log(platns);
-                    addToast("Plants loaded Successfully", { appearance: "success", autoDismiss: true });
+                    addToast("Plants loaded Successfully", {
+                        appearance: "success",
+                        autoDismiss: true,
+                    });
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }, []);
     } catch (error) {
-        addToast("Somthing Went Wrong", { appearance: "error", autoDismiss: true });
+        addToast("Somthing Went Wrong", {
+            appearance: "error",
+            autoDismiss: true,
+        });
     }
     return (
         <>
             <Container style={{ marginTop: "60px" }}>
                 <Breadcrumb className="plantlist_breakcrumb">
-                    <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/dashboard" }}>
+                    <Breadcrumb.Item
+                        linkAs={Link}
+                        linkProps={{ to: "/dashboard" }}
+                    >
                         Dashboard
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Plant List</Breadcrumb.Item>
@@ -58,12 +78,18 @@ const Plantlistpage = () => {
                         <Button variant="secondary"> Dashboard </Button>
                     </Link>
                     <Link to="/addplant">
-                        <Button style={{ marginLeft: "15px", padding: "8px 30px" }} variant="success">
+                        <Button
+                            style={{ marginLeft: "15px", padding: "8px 30px" }}
+                            variant="success"
+                        >
                             Add{" "}
                         </Button>
                     </Link>
                     <Link to="/editplant">
-                        <Button style={{ marginLeft: "15px", padding: "8px 30px" }} variant="success">
+                        <Button
+                            style={{ marginLeft: "15px", padding: "8px 30px" }}
+                            variant="success"
+                        >
                             EditPlant{" "}
                         </Button>
                     </Link>
