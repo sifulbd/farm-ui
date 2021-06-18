@@ -32,7 +32,7 @@ const Header = () => {
             <Navbar bg="light" expand="lg" className="vt-nav">
                 <div className="container">
                     <Navbar.Brand as={Link} to="/">
-                        Logo
+                        NewCo, Inc.
                         {/* <img src="holder.js/40x110" alt="" /> */}
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

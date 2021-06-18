@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import { useToasts } from "react-toast-notifications";
 import axios from "axios";
 import { API_URL } from "./../../config";
+import Moment from "react-moment";
 
 const Addplant = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -51,6 +52,14 @@ const Addplant = () => {
     };
 
     console.log(flavours.items);
+
+    // <Moment format="YYYY/MM/DD">
+    //             1976-04-19T12:59-0500
+    //         </Moment>
+
+    // <Moment parse="YYYY-MM-DD HH:mm">
+    //             1976-04-19 12:59
+    //         </Moment>
 
     return (
         <>
@@ -108,6 +117,7 @@ const Addplant = () => {
                                             {...register("someIntVal", {
                                                 required: true,
                                                 valueAsNumber: true,
+                                                pattern: /[0-9]/,
                                             })}
                                         />
                                         <p className="text-danger">{errors.someIntVal && "someIntVal is required"}</p>
