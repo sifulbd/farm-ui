@@ -107,23 +107,6 @@ const Plantlistpage = () => {
                         </tr>
                     </thead>
                     <tbody className="user-tbale-body">
-                        {/*
-                         {currentUser.length
-                            ? searchUser(currentUser).map((user, idx3) => (
-                                  <tr key={idx3}>
-                                      <td>{user.id}</td>
-                                      <td>{user.name}</td>
-                                      <td>{user.email}</td>
-                                      <td>{user.website}</td>
-                                      <td>
-                                          <Link to={`/users/${user.id}`}>View Details</Link>
-                                      </td>
-                                  </tr>
-                              ))
-                            : "No user found"} 
-                            
-                            */}
-
                         <tr>
                             <td>1</td>
                             <td>Alex</td>
