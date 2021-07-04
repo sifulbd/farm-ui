@@ -1,7 +1,7 @@
 import axios from "axios";
-import { createContext, default as React, useReducer } from "react";
-import AppReducer from "./AppReducers";
-const key = `https://dashboard.schooloffinance.org/wp-json`;
+import { createContext, default as React, useContext, useReducer } from "react";
+import PlantReducer from "./PlantReducers";
+import { API_URL } from "./../../config";
 
 const ISSERVER = typeof window === "undefined";
 // logged in user
@@ -21,43 +21,49 @@ const initialState = {
 };
 
 // Create context
-export const GlobalContext = createContext(initialState);
+export const PlantContext = createContext(initialState);
 
 // Provider component
-export const GlobalProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(AppReducer, initialState);
+export const PlantProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(PlantReducer, initialState);
 
     // Actions
 
     // userLogin Action
-    async function userLogin(username, password) {
+    async function add_Plant(allplantdata, configKey) {
+        console.log(allplantdata);
+
         try {
-            dispatch({
-                type: "USER_LOGIN_REQUEST",
-            });
-            const config = {
+            // dispatch({
+            //     type: "ADD_PLANT_REQUEST",
+            // });
+
+            const addPlantconfig = {
                 headers: {
                     "Content-Type": "application/json",
+                    Accept: "application/json",
+                    "Farm-Api-Key": configKey,
                 },
             };
-            const { data } = await axios.post(
-                `${key}/simple-jwt-authentication/v1/token`,
-                { username, password },
-                config
-            );
-            dispatch({
-                type: "USER_LOGIN_SUCCESS",
-                payload: data,
-            });
-            localStorage.setItem("userInfo", JSON.stringify(data));
+
+            await axios
+                .post(`${API_URL}/plants`, { allplantdata }, addPlantconfig)
+                .then((res) => console.log(res));
+
+            // dispatch({
+            //     type: "USER_LOGIN_SUCCESS",
+            //     payload: data,
+            // });
+            // localStorage.setItem("userInfo", JSON.stringify(data));
         } catch (error) {
-            dispatch({
-                type: "USER_LOGIN_FAIL",
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
-            });
+            console.log({ error });
+            //     dispatch({
+            //         type: "USER_LOGIN_FAIL",
+            //         payload:
+            //             error.response && error.response.data.message
+            //                 ? error.response.data.message
+            //                 : error.message,
+            //     });
         }
     }
 
@@ -74,7 +80,7 @@ export const GlobalProvider = ({ children }) => {
                 },
             };
             const { data } = await axios.post(
-                `${key}/simple-jwt-authentication/v1/token/validate`,
+                `/simple-jwt-authentication/v1/token/validate`,
                 {},
                 config
             );
@@ -105,7 +111,7 @@ export const GlobalProvider = ({ children }) => {
                 },
             };
             const { data } = await axios.post(
-                `${key}/simple-jwt-authentication/v1/token/revoke`,
+                `/simple-jwt-authentication/v1/token/revoke`,
                 {},
                 config
             );
@@ -135,7 +141,7 @@ export const GlobalProvider = ({ children }) => {
                 },
             };
             const { data } = await axios.post(
-                `${key}/simple-jwt-authentication/v1/token/resetpassword`,
+                `/simple-jwt-authentication/v1/token/resetpassword`,
                 { username },
                 config
             );
@@ -173,7 +179,7 @@ export const GlobalProvider = ({ children }) => {
             };
             await axios
                 .post(
-                    `${key}/wp/v2/users/register`,
+                    `$/wp/v2/users/register`,
                     { username, email, password },
                     config
                 )
@@ -205,11 +211,10 @@ export const GlobalProvider = ({ children }) => {
     }
 
     return (
-        <GlobalContext.Provider
+        <PlantContext.Provider
             value={{
                 user: state.userInfo,
                 loggedInUser: state.userInfo && state.userInfo.loggedInUser,
-                userLogin,
                 userRegistration,
                 userLogOut,
                 userValidation,
@@ -217,9 +222,10 @@ export const GlobalProvider = ({ children }) => {
                 error: state.error,
                 successMessage: state.successMessage,
                 loading: state.loading,
+                add_Plant,
             }}
         >
             {children}
-        </GlobalContext.Provider>
+        </PlantContext.Provider>
     );
 };

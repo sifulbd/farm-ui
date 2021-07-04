@@ -24,7 +24,6 @@ import axios from "axios";
 
 const Plantlistpage = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-    const [startDate, setStartDate] = useState(new Date());
     const { addToast } = useToasts();
 
     const config = {
