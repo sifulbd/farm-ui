@@ -21,10 +21,12 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import PlantsDataTable from "../components/PlantsDataTable";
 
 const Plantlistpage = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     const { addToast } = useToasts();
+    const [allplants, setPlants] = useState([]);
 
     const config = {
         headers: {
@@ -40,6 +42,7 @@ const Plantlistpage = () => {
                 .get(`${API_URL}/plants`, config)
                 .then(function (items) {
                     const platns = items.data;
+                    setPlants(platns);
                     console.log(platns);
                     addToast("Plants loaded Successfully", {
                         appearance: "success",
@@ -95,6 +98,9 @@ const Plantlistpage = () => {
                 </Jumbotron>
             </Container>
             <Container>
+                <PlantsDataTable plants={allplants && allplants} />
+            </Container>
+            {/* <Container>
                 <Table striped hover size="sm">
                     <thead>
                         <tr>
@@ -117,7 +123,7 @@ const Plantlistpage = () => {
                         </tr>
                     </tbody>
                 </Table>
-            </Container>
+            </Container> */}
         </>
     );
 };
