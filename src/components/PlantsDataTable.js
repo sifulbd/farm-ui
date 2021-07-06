@@ -28,12 +28,12 @@ const columns = [
     },
     {
         name: "isDeleteAllowed",
-        selector: "isDeleteAllowed",
+        selector: (row) => row["isDeleteAllowed"].toString(),
         sortable: true,
     },
     {
         name: "isEditAllowed",
-        selector: "isEditAllowed",
+        selector: (row) => row["isEditAllowed"].toString(),
         sortable: true,
     },
     {
@@ -114,7 +114,7 @@ function convertArrayOfObjectsToCSV(array) {
 
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
-    const keys = Object.keys(data[0]);
+    const keys = Object.keys(array[0]);
 
     result = "";
     result += keys.join(columnDelimiter);
@@ -159,12 +159,13 @@ const Export = ({ onExport }) => (
 );
 
 const PlantsDataTable = ({ plants }) => {
+    const plantList = plants && plants.items;
     const actionsMemo = React.useMemo(
-        () => <Export onExport={() => downloadCSV(data)} />,
+        () => <Export onExport={() => downloadCSV(plantList)} />,
         []
     );
 
-    console.log(plants);
+    console.log(plantList);
     return (
         <>
             <DataTable
