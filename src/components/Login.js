@@ -29,20 +29,32 @@ const Login = ({ mt }) => {
                 setLoading(false);
                 const signInuser = { isSignedIn: true, ...response.data };
                 setLoggedInUser(signInuser);
-                localStorage.setItem("loggedInUser", JSON.stringify(signInuser));
+                localStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify(signInuser)
+                );
                 // console.log(signInuser);
-                addToast("Logged in Successfully", { appearance: "success", autoDismiss: true });
+                addToast("Logged in Successfully", {
+                    appearance: "success",
+                    autoDismiss: true,
+                });
                 history.push("/dashboard");
             } else {
                 setLoading(false);
 
                 // addToast("Somthing Went Wrong", { appearance: "error", autoDismiss: true });
-                addToast(response.data.message, { appearance: "error", autoDismiss: true });
+                addToast(response.data.message, {
+                    appearance: "error",
+                    autoDismiss: true,
+                });
                 console.log(response.data.validationErrors);
                 setValidationError(response.data.validationErrors);
             }
         } catch (error) {
-            addToast("Somthing Went Wrong", { appearance: "error", autoDismiss: true });
+            addToast("Somthing Went Wrong", {
+                appearance: "error",
+                autoDismiss: true,
+            });
         }
     };
 
@@ -58,12 +70,28 @@ const Login = ({ mt }) => {
                             <h3>Login</h3>
                             <p>Please enter your email and password</p>
                         </div>
-                        <form className="fu-form" onSubmit={handleSubmit(onSubmit)}>
+                        <form
+                            className="fu-form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address *</Form.Label>
-                                <Form.Control type="email" name="email" placeholder="Enter email" {...register("email", { required: true })} />
-                                <p className="text-danger">{errors.email && "Email is required"}</p>
-                                <p className="text-danger">{!errors.password && validationError && validationError[0].property === "email" ? "User Not Found" : ""}</p>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter email"
+                                    {...register("email", { required: true })}
+                                />
+                                <p className="text-danger">
+                                    {errors.email && "Email is required"}
+                                </p>
+                                <p className="text-danger">
+                                    {!errors.password &&
+                                    validationError &&
+                                    validationError[0].property === "email"
+                                        ? "User Not Found"
+                                        : ""}
+                                </p>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password *</Form.Label>
@@ -74,14 +102,27 @@ const Login = ({ mt }) => {
                                         required: true,
                                     })}
                                 />
-                                <p className="text-danger">{errors.password && "Password is required"}</p>
-                                <p className="text-danger">{!errors.password && validationError && validationError[0].property === "password" ? "Invalid password" : ""}</p>
+                                <p className="text-danger">
+                                    {errors.password && "Password is required"}
+                                </p>
+                                <p className="text-danger">
+                                    {!errors.password &&
+                                    validationError &&
+                                    validationError[0].property === "password"
+                                        ? "Invalid password"
+                                        : ""}
+                                </p>
                             </Form.Group>
-                            <Button className="btn-block" variant="info" type="submit">
-                                Login
+                            <Button
+                                className="btn-block"
+                                variant="info"
+                                type="submit"
+                            >
+                                {loading ? "Loading..." : "Login"}
                             </Button>{" "}
                             <p className="mt-4">
-                                Don't have account? <Link to="/register"> Register </Link>
+                                Don't have account?{" "}
+                                <Link to="/register"> Register </Link>
                             </p>
                         </form>
                     </div>

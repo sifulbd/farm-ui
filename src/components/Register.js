@@ -31,12 +31,21 @@ const Register = ({ mt }) => {
                 setLoading(false);
                 const signInuser = { isSignedIn: true, ...response.data };
                 // setLoggedInUser(signInuser);
-                localStorage.setItem("loggedInUser", JSON.stringify(signInuser));
-                addToast("Registered  Successfully", { appearance: "success", autoDismiss: true });
+                localStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify(signInuser)
+                );
+                addToast("Registered  Successfully", {
+                    appearance: "success",
+                    autoDismiss: true,
+                });
                 history.push("/dashboard");
             } else {
                 setLoading(false);
-                addToast(response.data.message, { appearance: "error", autoDismiss: true });
+                addToast(response.data.message, {
+                    appearance: "error",
+                    autoDismiss: true,
+                });
                 console.log(response.data.validationErrors);
                 setValidationError(response.data.validationErrors);
             }
@@ -55,22 +64,55 @@ const Register = ({ mt }) => {
                             <h3>Register..</h3>
                             <p>Please tell us about yourself.</p>
                         </div>
-                        <form className="fu-form" onSubmit={handleSubmit(onSubmit)}>
+                        <form
+                            className="fu-form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
                             <Form.Group controlId="firstname">
                                 <Form.Label>First Name *</Form.Label>
-                                <Form.Control type="text" name="fname" placeholder="First Name" {...register("firstname", { required: true })} />
-                                <p className="text-danger">{errors.fname && "First Name is required"}</p>
+                                <Form.Control
+                                    type="text"
+                                    name="fname"
+                                    placeholder="First Name"
+                                    {...register("firstname", {
+                                        required: true,
+                                    })}
+                                />
+                                <p className="text-danger">
+                                    {errors.fname && "First Name is required"}
+                                </p>
                             </Form.Group>
                             <Form.Group controlId="firstname">
                                 <Form.Label>Last Name *</Form.Label>
-                                <Form.Control type="text" name="lname" placeholder="Last Name" {...register("lastName", { required: true })} />
-                                <p className="text-danger">{errors.lname && "Last Name is required"}</p>
+                                <Form.Control
+                                    type="text"
+                                    name="lname"
+                                    placeholder="Last Name"
+                                    {...register("lastName", {
+                                        required: true,
+                                    })}
+                                />
+                                <p className="text-danger">
+                                    {errors.lname && "Last Name is required"}
+                                </p>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address *</Form.Label>
-                                <Form.Control type="email" name="email" placeholder="Enter email" {...register("email", { required: true })} />
-                                <p className="text-danger">{errors.email && "Email is required"}</p>
-                                <p className="text-danger">{validationError && validationError.length > 0 ? validationError[0].message : ""}</p>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter email"
+                                    {...register("email", { required: true })}
+                                />
+                                <p className="text-danger">
+                                    {errors.email && "Email is required"}
+                                </p>
+                                <p className="text-danger">
+                                    {validationError &&
+                                    validationError.length > 0
+                                        ? validationError[0].message
+                                        : ""}
+                                </p>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password *</Form.Label>
@@ -82,11 +124,14 @@ const Register = ({ mt }) => {
                                         pattern: {
                                             // value: /^((?=.*\d)(?=.*[A-Z])(?=.*\W).{8,8})$/,
                                             value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-                                            message: "The password must contain at least 8 characters that include 1 upper case letter, 1 lower case letter, 1 number, and 1 non-alpha numeric character.",
+                                            message:
+                                                "The password must contain at least 8 characters that include 1 upper case letter, 1 lower case letter, 1 number, and 1 non-alpha numeric character.",
                                         },
                                     })}
                                 />
-                                <p className="text-danger">{errors.password && errors.password.message}</p>
+                                <p className="text-danger">
+                                    {errors.password && errors.password.message}
+                                </p>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Confirm Password *</Form.Label>
@@ -96,16 +141,27 @@ const Register = ({ mt }) => {
                                     placeholder="Confirm Password"
                                     {...register("confirmPassword", {
                                         required: true,
-                                        validate: (value) => value === password.current || "The passwords do not match",
+                                        validate: (value) =>
+                                            value === password.current ||
+                                            "The passwords do not match",
                                     })}
                                 />
-                                <p className="text-danger">{errors.password_repeat && <p>{errors.password_repeat.message}</p>}</p>
+                                <p className="text-danger">
+                                    {errors.password_repeat && (
+                                        <p>{errors.password_repeat.message}</p>
+                                    )}
+                                </p>
                             </Form.Group>
-                            <Button className="btn-block" variant="info" type="submit">
+                            <Button
+                                className="btn-block"
+                                variant="info"
+                                type="submit"
+                            >
                                 {loading ? "Loading ... " : "Register Now"}
                             </Button>{" "}
                             <p className="mt-4">
-                                Already have an account? <Link to="/login"> Login </Link>
+                                Already have an account?{" "}
+                                <Link to="/login"> Login </Link>
                             </p>
                         </form>
                     </div>
